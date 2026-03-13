@@ -47,7 +47,7 @@ void setup() {
 void loop() {
   u8g2.clearBuffer();
 
-  movement();
+  movement_input();
 
   Serial.print("1");
 
@@ -69,9 +69,11 @@ void loop() {
     }
   }
 
+  updateDisplay();
+
   // Delay => Millis: Da delay das gesamte Programm pausiert, nutzen wir millis und schauen wie lange wir pause machen.
   if (millis() - lastUpdate >= updateTime) {
-      updateDisplay();
+      movement();
       lastUpdate = millis();
   }
 }
@@ -151,7 +153,7 @@ void updateDisplay() {
 }
 
 
-void movement() {
+void movement_input() {
 
   int direction_new = direction_old;
 
@@ -176,7 +178,9 @@ void movement() {
   ) {
     direction_old = direction_new;
   }
+}
 
+void movement() {
   for (int i = snake_lenght - 1; i > 0; i--) {
     snake_X[i] = snake_X[i - 1];
     snake_Y[i] = snake_Y[i - 1];
